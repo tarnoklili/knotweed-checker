@@ -5,5 +5,4 @@ removed_photos/
 *.zip
 __pycache__/
 *.log
-.claude/
 external_test/*/

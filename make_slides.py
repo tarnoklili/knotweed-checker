@@ -97,5 +97,7 @@ slide("Live demo and what we learned", [
     "What surprised us: "+"We expected the model to fail on young spring shoots, but when we tested it on 168 new photos from Belgium and Germany it found 27 of 30 spring plants. The real problem was somewhere else: iNaturalist's search had mixed up knotweed and bindweed, so about 70 of our photos had the wrong label before we caught it. Testing taught us more than guessing.",
 ])
 
+prs.core_properties.last_modified_by = ""
+prs.core_properties.author = ""
 prs.save("slides.pptx")
 print("slides.pptx written")
