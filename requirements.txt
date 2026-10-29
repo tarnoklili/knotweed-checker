@@ -1,3 +1,7 @@
 streamlit
 requests
 roboflow
+# only needed for clip_baseline.py:
+# torch
+# transformers
+# pillow

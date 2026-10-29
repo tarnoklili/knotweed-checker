@@ -61,7 +61,7 @@ slide("How it works", [
     "2. The app sends it to our Roboflow model: the step that decides 'knotweed or not'",
     "3. 70%+ → 'Likely knotweed: don't cut it, report it on waarneming.nl'",
     "   below 70% → 'Maybe: take a closer photo' · otherwise 'Probably not'",
-    "Why not Google Lens? It gives a species name and stops. Ours answers 'should I report this?' and was tested on the look-alikes",
+    "Why not a general AI model? We tested one (CLIP): same knotweed found, but 4x more false alarms",
 ], image="examples/app-screenshot.jpg")
 
 slide("Data and model", [
@@ -72,27 +72,29 @@ slide("Data and model", [
     "Roboflow classification, ViT model, training photos doubled with flips, rotations and brightness changes",
 ])
 
-slide("Results on 73 photos it never saw", [
-    "95% right overall (but always saying 'no' would already score 64%)",
-    "Found 24 of 26 knotweed photos",
-    "Wrongly flagged 2 of 47 other plants",
-    "Both misses: young spring shoots (April, May)",
+slide("Results on photos it never saw", [
+    "73 Dutch test photos: 95% right · 24 of 26 knotweed found · 2 of 47 false alarms",
+    "168 new photos from Belgium and Germany, all seasons: 93% right · 77 of 83 found · 5 of 85 false alarms",
+    "Spring 93% · summer 93% · autumn/winter 95%: spring shoots are only slightly harder",
+    "General AI model (CLIP), same 168 photos: 84% · 77 of 83 found · 21 of 85 false alarms",
+    "Our model: 4x fewer false alarms than the general model, which could mean fewer unnecessary checks",
     "Worst mistake: a bindweed called knotweed with 98% confidence",
 ])
 
 slide("Ethics: what could go wrong, and what we did", [
     "Missed knotweed → patch keeps spreading (the expensive mistake)",
     "False alarm → someone cuts or poisons a harmless plant; cutting real knotweed spreads it",
-    "What we did: 70% threshold with a 'maybe' zone; the app never tells you to remove anything, only to report it",
+    "What we did: 70% threshold with a 'maybe' zone; the app never tells you to remove anything, only to report it; tested on a second, independent set",
     "Every answer warns it can be wrong; we report missed knotweed, not just accuracy",
     "Photos go to Roboflow's servers, so don't photograph people or house numbers",
-    "Next: test on our own spring photos; add spring and winter images",
+    "Next: test on our own street photos; add winter images",
 ])
 
 slide("Live demo and what we learned", [
     "Demo: upload a photo → answer in a few seconds",
     "Learned: the labels you scrape can be wrong; check them before training",
-    "Learned: a high score can hide the mistakes that matter; count the misses",
+    "Learned: a high score can hide the mistakes that matter; count the misses and false alarms",
+    "Learned: our guess that spring would be much worse was wrong; testing beat guessing",
     "What surprised us: OUR_OWN_LESSON",
 ])
 

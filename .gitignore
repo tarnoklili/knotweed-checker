@@ -6,3 +6,4 @@ removed_photos/
 __pycache__/
 *.log
 .claude/
+external_test/*/
