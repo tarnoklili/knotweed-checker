@@ -1,16 +1,16 @@
 # Knotweed Checker — spot invasive Japanese knotweed from a phone photo
 
-**What it does.** You take or upload a photo of a plant. A Roboflow image-classification model says whether it is invasive knotweed (*Reynoutria*: Japanese, giant or Bohemian knotweed) or a different plant. It says "likely knotweed" only at 70% confidence or more; below that it says "maybe" and asks for a closer photo. If it is likely knotweed, the app tells you not to cut it and where to report it.
+**What it does.** You take or upload a photo of a plant. Our Roboflow model says whether it is invasive knotweed (*Reynoutria*: Japanese, giant or Bohemian) or another plant. At 70% confidence or more the app says "likely knotweed: don't cut it, report it"; below that it says "maybe" and asks for a closer photo.
 
-**Who it is for.** Residents, park volunteers and municipal green-space workers in the Netherlands who see a suspicious plant and want a quick first check before reporting it.
+**The problem.** Knotweed pushes out native plants, can damage river banks and paving, and regrows from tiny root pieces. Amsterdam set aside €8.2 million to fight it, and municipalities such as Ameland and Heusden ask residents to report where it grows ([gemeente.nu, 2019](https://gemeente.nu/ruimte-milieu/strijdplan-japanse-duizendknoop-samen-met-inwoners)). Patches are cheapest to remove when found early, but most residents cannot tell knotweed from look-alikes such as bindweed.
 
-**SDG 15 — Life on Land.** Target 15.8 asks countries to stop invasive alien species and control their impact on ecosystems. Japanese knotweed is a well-known invasive plant in the Netherlands. It pushes out native plants, can damage river banks, paving and drainage, and spreads from tiny root or stem pieces. Removal works best when patches are found early, and most people cannot recognise the plant. This app helps more eyes find patches sooner.
+**Who it is for.** Residents and park volunteers in the Netherlands who see a suspicious plant and want to know in seconds whether to report it. **Not for:** municipal staff or contractors deciding whether to remove a plant (that needs an expert on site), or identifying other species.
 
-**How we built it.**
-1. Dataset: 832 photos taken in the Netherlands, scraped from iNaturalist (`scrape_inaturalist.py`): 302 knotweed and 530 look-alike and neighbour plants. Only research-grade observations (identity confirmed by the community) with Creative Commons licences. Credits per photo: `dataset/sources.csv`.
-2. Roboflow: classification project, folder name = label. We split by plant, not by photo: the 302 knotweed photos come from only 185 plants, so all photos of one plant go in the same split (587/172/73 train/valid/test). Otherwise the model could be tested on a plant it already saw. Training photos were doubled with flips, small rotations and brightness changes (`train_roboflow.py`). Model: Roboflow's ViT classifier (`vit-base-patch16-224-in21k`), version `knotweed-nl/1`.
-3. **Result on the 73 test photos it never saw (`evaluate.py`, same 70% rule as the app): 95% right. It found 24 of the 26 knotweed photos and wrongly flagged 2 of the 47 other plants.** Accuracy alone flatters it: always answering "not knotweed" would already score 64%.
-4. App: `app.py` (Streamlit) sends the photo to our hosted Roboflow model.
+**SDG 15 — Life on Land.** Target 15.8: prevent invasive alien species and reduce their impact on ecosystems. More correct, earlier reports mean patches get removed while they are small.
+
+**How it works.** (1) The user takes or uploads a photo. (2) The app sends it to our **Roboflow** model, the step that decides "knotweed or not"; without it there is no answer. (3) The app turns the answer into advice. **Why not a general plant app?** Apps like Google Lens give a species name and stop. Ours answers "should I report this?", says what not to do, and was tested on the plants knotweed is most often confused with.
+
+**Result.** On 73 test photos of plants it never saw: 95% right. It found 24 of 26 knotweed photos and wrongly flagged 2 of 47 other plants (`evaluate.py`). How we collected the data, trained the model and tested it: [`DATA_CARD.md`](DATA_CARD.md). Slides: [`slides.pdf`](slides.pdf).
 
 **How to run.**
 ```
@@ -19,6 +19,6 @@ export ROBOFLOW_API_KEY="paste-your-key-here"
 export ROBOFLOW_MODEL=knotweed-nl/1
 streamlit run app.py
 ```
-Then open the link it prints (on a phone in the same Wi-Fi, use the "Network URL"). The model lives in our private Roboflow workspace, so it needs our key: we demo it live, or ask us for a demo key. Example: `examples/test-knotweed.jpg`, a test photo the model never saw, gives "Likely knotweed (98% sure)" (`examples/app-screenshot.jpg`).
+Open the link it prints (on a phone in the same Wi-Fi, use the "Network URL"). The model is in our private Roboflow workspace, so it needs our key: we demo it live, or ask us for a demo key. Example: `examples/test-knotweed.jpg` gives "Likely knotweed (98% sure)" (`examples/app-screenshot.jpg`).
 
-**Data card and ethical reflection:** see [`DATA_CARD.md`](DATA_CARD.md).
+**Data card and ethical reflection:** [`DATA_CARD.md`](DATA_CARD.md).
