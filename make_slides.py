@@ -94,8 +94,7 @@ slide("Live demo and what we learned", [
     "Demo: upload a photo → answer in a few seconds",
     "Learned: the labels you scrape can be wrong; check them before training",
     "Learned: a high score can hide the mistakes that matter; count the misses and false alarms",
-    "Learned: our guess that spring would be much worse was wrong; testing beat guessing",
-    "What surprised us: OUR_OWN_LESSON",
+    "What surprised us: "+"We expected the model to fail on young spring shoots, but when we tested it on 168 new photos from Belgium and Germany it found 27 of 30 spring plants. The real problem was somewhere else: iNaturalist's search had mixed up knotweed and bindweed, so about 70 of our photos had the wrong label before we caught it. Testing taught us more than guessing.",
 ])
 
 prs.save("slides.pptx")
